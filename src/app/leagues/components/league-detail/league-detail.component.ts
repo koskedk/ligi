@@ -24,10 +24,10 @@ export class LeagueDetailComponent implements OnInit {
   }
 
   cancel() {
-    this.store.dispatch(LeagueActions.cancelLeague());
+   // this.store.dispatch(LeagueActions.cancelLeague());
   }
 
   submit() {
-    this.store.dispatch(LeagueActions.addLeague({league: this.myForm.value}));
+    //this.store.dispatch(LeagueActions.addLeague({league: this.myForm.value}));
   }
 }

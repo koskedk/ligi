@@ -3,8 +3,10 @@ import {LeagueService} from '../../services/league.service';
 import {Observable, pipe} from 'rxjs';
 import {League} from '../../models/league';
 import {Store} from '@ngrx/store';
-import {getDefaultLeague, getError, getLeagues, LeagueState} from '../../state/reducers/league.reducer';
+import {LeagueState} from '../../state/reducers/league.reducer';
 import * as LeagueActions from '../../state/actions/league.actions';
+import {getLeagues} from '../../state/actions/league.actions';
+import { selectError, selectLeagues} from '../../state';
 
 @Component({
   selector: 'app-league-list',
@@ -20,12 +22,12 @@ export class LeagueListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.leagues$ = this.store.select(getLeagues);
-    this.error$ = this.store.select(getError);
-    this.store.dispatch(LeagueActions.loadLeagues());
+    this.leagues$ = this.store.select(selectLeagues);
+    this.error$ = this.store.select(selectError);
+    this.store.dispatch(LeagueActions.getLeagues());
   }
 
   makeDefault(id: any) {
-    this.store.dispatch(LeagueActions.setDefaultLeague({leagueId: id}));
+    // this.store.dispatch(LeagueActions.setDefaultLeague({leagueId: id}));
   }
 }

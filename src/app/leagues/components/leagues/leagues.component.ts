@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {League} from '../../models/league';
-import {getActionMode, getDefaultLeague, LeagueState} from '../../state/reducers/league.reducer';
+import { LeagueState} from '../../state/reducers/league.reducer';
 import {Store} from '@ngrx/store';
 import * as LeagueActions from '../../state/actions/league.actions';
 import {ActionMode} from '../../../shared/action-mode';
@@ -19,12 +19,12 @@ export class LeaguesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.defaultLeague$ = this.store.select(getDefaultLeague);
-    this.actionMode$ = this.store.select(getActionMode);
+   /* this.defaultLeague$ = this.store.select(getDefaultLeague);
+    this.actionMode$ = this.store.select(getActionMode);*/
   }
 
   addLeague() {
-    this.store.dispatch(LeagueActions.newLeague());
+    // this.store.dispatch(LeagueActions.newLeague());
   }
 
   show(mode: any) {
