@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "apirun": "json-server --watch api\\db.json --routes  api\\routes.json",
+    "apirun": "json-server --watch api//db.json --routes  api//routes.json",
     "start:app": "concurrently \"npm run apirun\" \"npm run start\""
   },
   "private": true,

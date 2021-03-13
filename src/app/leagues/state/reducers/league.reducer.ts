@@ -58,8 +58,12 @@ const _leagueReducer = createReducer(
   on(LeagueActions.setDefaultLeague, (state, action) => ({
     ...state, defaultLeagueId: action.leagueId
   })),
-
-
+  on(LeagueActions.addLeagueSuccess, (state, action) => ({
+    ...state, actionMode: ActionMode.None, selectedLeagueId: null, error: ''
+  })),
+  on(LeagueActions.addLeagueFail, (state, action) => ({
+    ...state, error: action.error
+  })),
   on(LeagueActions.newLeague, (state, action) => ({
     ...state, actionMode: ActionMode.AddRecord
   })),
@@ -68,6 +72,9 @@ const _leagueReducer = createReducer(
   })),
   on(LeagueActions.viewLeague, (state, action) => ({
     ...state, actionMode: ActionMode.ViewRecord, selectedLeagueId: action.leagueId
+  })),
+  on(LeagueActions.cancelLeague, (state, action) => ({
+    ...state, actionMode: ActionMode.None, selectedLeagueId: null
   }))
 );
 

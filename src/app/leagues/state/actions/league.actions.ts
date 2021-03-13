@@ -1,12 +1,8 @@
 import {createAction, props} from '@ngrx/store';
 import {League} from '../../models/league';
 
-
 export const loadLeagues = createAction('[League Page] Load');
-
-
 // LOAD
-
 export const loadLeaguesSuccess = createAction(
   '[League Page] Load Success',
   props<{ leagues: League[] }>()
@@ -22,17 +18,25 @@ export const setDefaultLeague = createAction(
   props<{ leagueId: string }>()
 );
 
+
 // ADD
 
 export const addLeague = createAction(
-  '[League Page] Set Default League',
+  '[League Page] Add League',
   props<{ league: League }>()
 );
+
+
+//region xxx
+
+//endregion
 
 export const addLeagueSuccess = createAction(
   '[League Page] Add Success',
   props<{ league: League }>()
 );
+
+// ADD
 
 export const addLeagueFail = createAction(
   '[League Page] Add Fail',
@@ -42,7 +46,7 @@ export const addLeagueFail = createAction(
 // UPDATE
 
 export const updateLeague = createAction(
-  '[League Page] Set Default League',
+  '[League Page] Update League',
   props<{ leagueId: string, league: League }>()
 );
 
@@ -59,7 +63,7 @@ export const updateLeagueFail = createAction(
 // DELETE
 
 export const deleteLeague = createAction(
-  '[League Page] Set Default League',
+  '[League Page] Delete League',
   props<{ leagueId: string }>()
 );
 
@@ -72,7 +76,7 @@ export const deleteLeagueFail = createAction(
   props<{ error: string }>()
 );
 
-// LOAD
+// COMMANDS
 
 export const viewLeague = createAction(
   '[League Page] View League',
@@ -80,10 +84,14 @@ export const viewLeague = createAction(
 );
 
 export const editLeague = createAction(
-  '[League Page] View League',
+  '[League Page] Edit League',
   props<{ leagueId: string }>()
 );
 
 export const newLeague = createAction(
-  '[League Page] View League'
+  '[League Page] New League'
+);
+
+export const cancelLeague = createAction(
+  '[League Page] Cancel League Changes'
 );

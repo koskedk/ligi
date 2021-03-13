@@ -7,6 +7,7 @@ import {leagueReducer} from './state/reducers/league.reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {LeagueEffects} from './state/effects/league.effects';
 import { LeagueDetailComponent } from './components/league-detail/league-detail.component';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -14,11 +15,12 @@ import { LeagueDetailComponent } from './components/league-detail/league-detail.
   exports: [
     LeaguesComponent
   ],
-  imports: [
-    CommonModule,
-    StoreModule.forFeature('leagues', leagueReducer),
-    EffectsModule.forFeature([LeagueEffects])
-  ]
+    imports: [
+        CommonModule,
+        StoreModule.forFeature('leagues', leagueReducer),
+        EffectsModule.forFeature([LeagueEffects]),
+        ReactiveFormsModule
+    ]
 })
 export class LeagueModule {
 }

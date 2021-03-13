@@ -1,1 +1,9 @@
-<p>league-detail works!</p>
+<p>Manage League</p>
+<form [formGroup]="myForm" (ngSubmit)="submit()">
+  <label for="id">Id</label>
+  <input id="id" formControlName="id" placeholder="Id">
+  <label for="name">Name</label>
+  <input id="name" formControlName="name" placeholder="Name">
+  <button type="submit" [disabled]="myForm.invalid">Save</button>
+</form>
+<button (click)="cancel()">Cancel</button>
