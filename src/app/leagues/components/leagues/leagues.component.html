@@ -1,0 +1,10 @@
+<h2 *ngIf="defaultLeague$ | async as league">
+  {{league?.name}}
+</h2>
+
+<p>All leagues</p>
+<button (click)="addLeague()">Add League</button>
+<app-league-list></app-league-list>
+<div *ngIf="actionMode$ | async as mode">
+  <app-league-detail *ngIf="show(mode)"></app-league-detail>
+</div>

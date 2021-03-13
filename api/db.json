@@ -1,0 +1,12 @@
+{
+  "leagues": [
+    {
+      "id": "EPL",
+      "name": "Barclay English Premier League"
+    },
+    {
+      "id": "SPL",
+      "name": "Spain La Liga"
+    }
+  ]
+}
