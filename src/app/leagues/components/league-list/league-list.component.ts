@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {LeagueService} from '../../services/league.service';
-import {Observable, pipe} from 'rxjs';
+import {Observable} from 'rxjs';
 import {League} from '../../models/league';
 import {Store} from '@ngrx/store';
 import {LeagueState} from '../../state/reducers/league.reducer';
-import * as LeagueActions from '../../state/actions/league.actions';
-import {getLeagues} from '../../state/actions/league.actions';
-import { selectError, selectLeagues} from '../../state';
+import * as LeagueActions from '../../state/actions';
+import { selectLeagues} from '../../state';
+import {ActionMode} from '../../../shared/action-mode';
 
 @Component({
   selector: 'app-league-list',
@@ -16,18 +15,29 @@ import { selectError, selectLeagues} from '../../state';
 export class LeagueListComponent implements OnInit {
 
   leagues$: Observable<League[]> | undefined;
-  error$: Observable<any> | undefined;
 
   constructor(private store: Store<LeagueState>) {
   }
 
   ngOnInit(): void {
     this.leagues$ = this.store.select(selectLeagues);
-    this.error$ = this.store.select(selectError);
     this.store.dispatch(LeagueActions.getLeagues());
   }
 
   makeDefault(id: any) {
-    // this.store.dispatch(LeagueActions.setDefaultLeague({leagueId: id}));
+    this.store.dispatch(LeagueActions.setDefaultLeague({id}));
+  }
+
+  addLeague() {
+    this.store.dispatch(LeagueActions.pageAction({mode: ActionMode.AddRecord}));
+  }
+
+  remove(id: any) {
+    this.store.dispatch(LeagueActions.deleteLeague({id}));
+  }
+
+  edit(id: any) {
+    this.store.dispatch(LeagueActions.setSelectedLeague({id}));
+    this.store.dispatch(LeagueActions.pageAction({mode: ActionMode.EditRecord}));
   }
 }

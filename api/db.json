@@ -1,12 +1,12 @@
 {
   "leagues": [
     {
-      "id": "EPL",
-      "name": "English Premier League"
-    },
-    {
       "id": "SPL",
       "name": "Spain La Liga"
+    },
+    {
+      "id": "KPL",
+      "name": "Kenya Premier League"
     }
   ]
 }

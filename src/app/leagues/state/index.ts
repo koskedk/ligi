@@ -6,15 +6,50 @@ export interface State extends AppState.State {
   leagues: LeagueState;
 }
 
-const getLeagueFeatureState = createFeatureSelector<LeagueState>('leagues');
+const selectLeagueFeatureState = createFeatureSelector<LeagueState>('leagues');
 
 export const selectError = createSelector(
-  getLeagueFeatureState,
+  selectLeagueFeatureState,
   state => state.error
 );
 
 export const selectLeagues = createSelector(
-  getLeagueFeatureState,
+  selectLeagueFeatureState,
   state => state.leagues
+);
+
+export const selectDefaultLeagueId = createSelector(
+  selectLeagueFeatureState,
+  state => state.defaultLeagueId
+);
+
+export const selectDefaultLeague = createSelector(
+  selectLeagueFeatureState,
+  selectDefaultLeagueId,
+  (state, defaultLeagueId) => {
+    return defaultLeagueId ?
+      state.leagues.find(x => x.id === defaultLeagueId) :
+      null;
+  }
+);
+
+export const selectActiveLeagueId = createSelector(
+  selectLeagueFeatureState,
+  state => state.selectedLeagueId
+);
+
+export const selectActiveLeague = createSelector(
+  selectLeagueFeatureState,
+  selectActiveLeagueId,
+  (state, selectedLeagueId) => {
+    return selectedLeagueId ?
+      state.leagues.find(x => x.id === selectedLeagueId) :
+      null;
+  }
+);
+
+export const selectActionMode = createSelector(
+  selectLeagueFeatureState,
+  state => state.actionMode
 );
 

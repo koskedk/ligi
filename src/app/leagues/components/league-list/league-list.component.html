@@ -1,10 +1,12 @@
 <div>
+  <button (click)="addLeague()">Add League</button>
   <div *ngIf="(leagues$ | async) as leagues">
     <ul *ngFor="let league of leagues">
-      <li> {{league.name}}  <button (click)="makeDefault(league?.id)">Make Default</button></li>
+      <li>
+        {{league.name}}
+        <button (click)="makeDefault(league?.id)">Make Default</button>
+        <button (click)="edit(league?.id)">Edit</button>
+        <button (click)="remove(league?.id)">x</button></li>
     </ul>
   </div>
-  <h5 style="color:red" *ngIf="error$ | async as error">
-    {{error.message}}
-  </h5>
 </div>
