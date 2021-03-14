@@ -1,12 +1,13 @@
-import {Action, createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import {League} from '../../models/league';
-import * as LeagueActions from '../actions/league.actions';
+import * as LeagueActions from '../actions';
 import {ActionMode} from '../../../shared/action-mode';
 
 export interface LeagueState {
   defaultLeagueId: string | null;
   leagues: League[];
-  error: string;
+  isSuccess: boolean;
+  error: any | null;
   actionMode: ActionMode;
   selectedLeagueId: string | null;
 }
@@ -14,67 +15,72 @@ export interface LeagueState {
 export const initialState: LeagueState = {
   defaultLeagueId: '',
   leagues: [],
-  error: '',
+  isSuccess: false,
+  error: null,
   actionMode: ActionMode.None,
   selectedLeagueId: null
 };
 
-const getLeagueFeatureState = createFeatureSelector<LeagueState>('leagues');
-
-export const getLeagues = createSelector(
-  getLeagueFeatureState,
-  state => state.leagues
-);
-
-export const getError = createSelector(
-  getLeagueFeatureState,
-  state => state.error
-);
-
-export const getDefaultLeagueId = createSelector(
-  getLeagueFeatureState,
-  state => state.defaultLeagueId
-);
-
-export const getDefaultLeague = createSelector(
-  getLeagueFeatureState,
-  getDefaultLeagueId,
-  state => state.leagues.filter(x => x.id === state.defaultLeagueId)[0]
-);
-
-export const getActionMode = createSelector(
-  getLeagueFeatureState,
-  state => state.actionMode
-);
-
-const _leagueReducer = createReducer(
+const _leagueReducer = createReducer<LeagueState>(
   initialState,
-  on(LeagueActions.loadLeaguesSuccess, (state, action) => ({
-    ...state, leagues: action.leagues, error: ''
+  on(LeagueActions.getLeaguesSuccess, (state, action) => ({
+    ...state,
+    leagues: action.leagues,
+    error: null,
+    isSuccess: true
   })),
-  on(LeagueActions.loadLeaguesFail, (state, action) => ({
-    ...state, leagues: [], error: action.error
+  on(LeagueActions.getLeaguesFailure, (state, action) => ({
+    ...state,
+    leagues: [],
+    error: action.error,
+    isSuccess: false
   })),
   on(LeagueActions.setDefaultLeague, (state, action) => ({
-    ...state, defaultLeagueId: action.leagueId
+    ...state, defaultLeagueId: action.id
   })),
-  on(LeagueActions.addLeagueSuccess, (state, action) => ({
-    ...state, actionMode: ActionMode.None, selectedLeagueId: null, error: ''
+  on(LeagueActions.setSelectedLeague, (state, action) => ({
+    ...state, selectedLeagueId: action.id
   })),
-  on(LeagueActions.addLeagueFail, (state, action) => ({
-    ...state, error: action.error
+  on(LeagueActions.pageAction, (state, action) => ({
+    ...state, actionMode: action.mode
   })),
-  on(LeagueActions.newLeague, (state, action) => ({
-    ...state, actionMode: ActionMode.AddRecord
+  on(LeagueActions.saveLeagueSuccess, (state, action) => ({
+    ...state,
+    leagues: [...state.leagues, action.league], error: null, isSuccess: true, actionMode: ActionMode.None
   })),
-  on(LeagueActions.editLeague, (state, action) => ({
-    ...state, actionMode: ActionMode.EditRecord, selectedLeagueId: action.leagueId
+  on(LeagueActions.saveLeagueFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+    isSuccess: false,
+    actionMode: ActionMode.AddRecord
   })),
-  on(LeagueActions.viewLeague, (state, action) => ({
-    ...state, actionMode: ActionMode.ViewRecord, selectedLeagueId: action.leagueId
+
+  on(LeagueActions.editLeagueSuccess, (state, action) => {
+    const updatedLeagues = state.leagues.map(
+      x => action.league.id === x.id ? action.league : x
+    );
+    return {
+      ...state,
+      leagues: updatedLeagues, error: null, isSuccess: true, actionMode: ActionMode.None
+    };
+  }),
+  on(LeagueActions.editLeagueFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+    isSuccess: false, actionMode: ActionMode.EditRecord
   })),
-  on(LeagueActions.cancelLeague, (state, action) => ({
-    ...state, actionMode: ActionMode.None, selectedLeagueId: null
+
+  on(LeagueActions.deleteLeagueSuccess, (state, action) => {
+    const updatedLeagues = state.leagues.filter(x => x.id !== action.id);
+    return {
+      ...state,
+      leagues: updatedLeagues, error: null, isSuccess: true
+    };
+  }),
+  on(LeagueActions.deleteLeagueFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+    isSuccess: false
   }))
 );
 

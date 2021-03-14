@@ -3,8 +3,11 @@
 </h2>
 
 <p>All leagues</p>
-<button (click)="addLeague()">Add League</button>
+
 <app-league-list></app-league-list>
 <div *ngIf="actionMode$ | async as mode">
-  <app-league-detail *ngIf="show(mode)"></app-league-detail>
+  <app-league-detail *ngIf="show(mode)" [selectedLeague]="selectedLeague$ | async" [mode]="mode"></app-league-detail>
 </div>
+<h5 style="color:red" *ngIf="error$ | async as error">
+  {{error.message}}
+</h5>
